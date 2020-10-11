@@ -31,18 +31,18 @@
        public delegate void Sub(int a, int b);
        
        public void AddNum(int x, int y){
-           Console.Write(x+y);							// Method supporting delegate signature
+           Console.Write(x+y);						// Method supporting delegate signature
        }
        
        public void SubNum(int x, int y){
-           Console.Write(x-y);							// Method supporting delegate signature		
+           Console.Write(x-y);						// Method supporting delegate signature		
        }
        
        public static void Main(){
            Calculate calc = new Calculate();
            
-           Add add = new Add(obj.AddNum);				// Passing reference of method to delegate
-           Sub sub = new Sub(pbj.SubNum);				// Passing reference of method to delegate
+           Add add = new Add(obj.AddNum);			// Passing reference of method to delegate
+           Sub sub = new Sub(pbj.SubNum);			// Passing reference of method to delegate
            
            add(1,3);		// 4	- Calling method through delegate
            sub(5,3);		// 2	- Calling method through delegate
