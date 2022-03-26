@@ -126,6 +126,47 @@
    }
    ```
    
+   ```c#
+   // Same code using Action Delegate
+   
+   using System;
+   using System.Collections.Generic;
+   					
+   public class Program
+   {
+   	
+   	public static void Main()
+   	{
+   		// Create delegate (reference) & assign reference of the original method 
+   		Action<string> logToDb = LogToDB;
+   		Action<string> logToFile = LogToFile;
+   		
+           // Create a map of strategies
+   		var strategyMap = new Dictionary<string, Delegate>();
+   		strategyMap.Add("DB",logToDb);
+   		strategyMap.Add("File",logToFile);
+   		
+   		string input = "DB";
+   		
+           // Get the strategy based on input condition
+   		var strategy = strategyMap[input];
+   		
+           // Execute the strategy
+   		strategy.DynamicInvoke("Sample text to log");
+   		
+   	}
+   	
+   	public static void LogToDB(string message){
+   		Console.WriteLine("Message logged to Database. Message: " + message);
+   	}
+   	
+   	public static void LogToFile(string message){
+   		Console.WriteLine("Message logged to File. Message: " + message);
+   	}
+   	
+   }
+   ```
+   
    
 
 
