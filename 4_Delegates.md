@@ -85,6 +85,47 @@
    }
    ```
 
+   ```c#
+   // Remove if else using Delegates
+   
+   using System;
+   using System.Collections.Generic;
+   					
+   public class Program
+   {
+   	public delegate void LogToDBDelegate(string message);
+   	public delegate void LogToFileDelegate(string message);
+   	
+   	public static void Main()
+   	{
+   		
+   		var delegateMap = new Dictionary<string, Delegate>();
+   		
+   		LogToDBDelegate logToDbDelagate = new LogToDBDelegate(LogToDB);
+   		LogToFileDelegate logToFileDelagate = new LogToFileDelegate(LogToFile);
+   		
+   		delegateMap.Add("DB", logToDbDelagate);
+   		delegateMap.Add("File", logToFileDelagate);
+   		
+   		string input = "File";
+   		
+   		var strategy = delegateMap[input];
+   		
+   		strategy.DynamicInvoke("Sample Text");
+   		
+   	}
+   	
+   	public static void LogToDB(string message){
+   		Console.WriteLine("Message logged to Database...");
+   	}
+   	
+   	public static void LogToFile(string message){
+   		Console.WriteLine("Message logged to File...");
+   	}
+   	
+   }
+   ```
+   
    
 
 
