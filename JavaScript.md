@@ -363,6 +363,8 @@ z();	// 7 - This is Closure
 
 
 
+
+
 ## 17. Closure & setTimeout
 
 ```javascript
@@ -416,3 +418,422 @@ x();	// Correct
 // Now each method call, a new value if input parameter will be stored.
 ```
 
+
+
+
+
+## 18. Function Jargons for Interviews
+
+```javascript
+// 1. Function Statement / Declaration
+function a(){ console.log("This is function statement") }
+    
+
+// 2. Function Expression
+var b = function (){ console.log("This is function expression") };
+
+
+// 3. Difference b/w Function statement & expression is "HOISTING". "a" will store function code while "b" will contain undefined in Memory.
+
+
+// 4. Anonymous Function
+var c = function(){};	// A function without a name
+
+
+// 5. Named Function Expression
+var c = function d(){};	 // A function with a name
+d();	// ReferenceError - Because memory is not created for this function yet.
+
+
+// 6. Parameters vs Arguments
+function a(var x, var y, var x){};	// Parameters
+a(1,2,3);	// Arguments
+
+
+// 7. First Class Functions/Citizens
+// Ability to pass function to another function or a function returning another function is called First Class Function
+
+
+// 8. Arrow Functions
+var a = () => {console.log("This is an anonymous function")};
+```
+
+
+
+
+
+## 19. Callback Functions
+
+1. A function passed as an argument to another function is called **Callback Function**.
+2. We can do async things in JS using Callback functions.
+3. **setTimeout(fn, 5000)** is passed a callback function that will be executed after some time.
+4. setTimeout will not guarantee to be executed after 5 seconds.
+
+
+
+
+
+## 20. Event Listeners
+
+```javascript
+document
+    .getElementById("clickMe")
+    .addEventListener("click", () => console.log("Callback function"));
+
+// This function will be stored in Browser's DOM API and will put into JS call stack when btn is clicked
+```
+
+
+
+
+
+## 21. Closures with Event Listener
+
+```javascript
+function attachEventListeners(){
+    let count = 0;
+    document
+        .getElementById("clickMe")
+        .addEventListener("click", () => console.log("Button Clicked",++count));
+}
+
+attachEventListeners();
+
+// The callback function has access to variable "count", and everytime button is clicked the value will be incremented and due to closure the callback function have the reference to "count" and it's value.
+```
+
+
+
+
+
+## 22. Garbage Collection & removeEventListener
+
+1. **eventListeners** are very heavy in memory & due to closures it will hold the references to all the local variables.
+2. If we have thousands of such eventListeners on our page, our memory usage will increase.
+3. When we use **removeEventListener**, all such variables will be garbage collected and memory will be released.
+
+
+
+
+
+## 23. Asynchronous JS & Event Loop
+
+1. JS has only 1 call stack and can do one task at a time.
+
+2. If we want to call a function after some time, we need a superpower (Timer).
+
+3. This superpower will be provided by the browser.
+
+4. Browser contains many superpowers (Web APIs) including **Timer**, **LocalStorage** **Database**, **Fetch API**, **DOM** APIs, **Bluetooth**, **Location** etc.
+
+5. These APIs are not part of JS but are part of browser and stored in "**window**" object.
+
+6. After 5 seconds, Timer API will push the callback method into "**Callback Queue**".
+
+7. Once everything is executed in "**Call Stack**", "**Event Loop**" will pop the callback method and push it into "Call Stack".
+
+8. **Event Loop** is used to continuously monitor "Call Stack" & "Callback Queue" & moves the call-backs from queue to stack.
+
+9. We need "**Callback Queue**" to maintain FIFO order of all incoming events.
+
+10. We have "**Micro Task Queue**" that is used to store call-backs related to **Promises** & **Mutation Observers**.
+
+11. "**Event Loop**" will give priority to "**Micro Task Queue**" and empty is first then the "**Callback Queue**" will be emptied.
+
+12. "**Starvation**" happens when a callback function calls another callback function and so on.
+
+    ```
+    Browser APIs
+    
+    1. setTimeout() - Timer superpower
+    2. getElementById() - DOM API superpower
+    3. fetch() - Fetch API superpower
+    4. localStorage - Storage API superpower
+    5. console.log() - Console API superpower
+    6. location - GeoLocation API superpower
+    ```
+
+    ```javascript
+    // Example 1
+    
+    console.log("Start"); // Call the console API that will print on console
+    
+    setTimeout(() => console.log("Callback"), 5000); // Pass the function to Timer API
+    
+    console.log("End"); // Call the console API that will print on console
+    
+    // Now the Timer API will push the callback function into "Callback Queue" & then "Event Loop" will take this callback function and push into "Call stack".
+    ```
+
+    ```javascript
+    // Example 2
+    
+    console.log("Start");
+    
+    document
+        .getElementById("btn")
+    	.addEventListener("click", () => console.log("Callback"));	// Pass the CB fun to the DOM API
+    
+    console.log("End");
+    
+    // When the button is clicked, DOM API will push the callback into "Callback Queue" from where "Event Loop" will pick it up & push into "Call Stack" and it will be executed.
+    ```
+
+    ```javascript
+    // Example 3
+    
+    console.log("Start");
+    
+    setTimeout(() => console.log("Callback Timer"), 5000);
+    
+    fetch("URL").then(() => console.log("Callback Network"));
+    
+    console.log("End");
+    
+    // "Callback Timer" will be stored in Timer API
+    // "Callback Network" will be stored in Fetch API
+    
+    // "Callback Timer" will be pushed into "Callback Queue" after 5 seconds
+    // "Callback Network" will be pushed into "Micro Task Queue", another Queue browser maintain.
+    ```
+
+
+
+
+
+## 24. setTimeout() delay
+
+1. setTimeout() does not guarantee the delay because "**Event Loop**" will first empty the "Call Stack" & then the "**Micro Task Queue**".
+2. So if we have long running tasks in "**Call Stack**" then "**Event Loop**" will wait until all long running tasks are completed.
+3. Now the setTimeout callback will be pushed into "**Call Stack**".
+4. This whole delay may take some extra time.
+5. setTimeout(function, 0) will execute in the same way.
+
+
+
+
+
+## 25. Higher Order Function
+
+1. A function that takes another function as an argument or returns another function is called **HOF**.
+2. **map**, **filter** & **reduce** functions are **Higher Order Functions**.
+
+
+
+
+
+## 26. map, filter & reduce
+
+1. **map**
+
+   ```javascript
+   // Map will transform each and every value of the array and return a new array
+   
+   var a = [1,2,3,4,5];
+   
+   function b(c){
+       return c * 2;
+   }
+   
+   var d = a.map(b);
+   
+   console.log(d);	//	[2,3,6,8,10]
+   ```
+
+   
+
+2. **filter**
+
+   ```javascript
+   // Filter will filter the array
+   
+   const arr = [1,2,3,4,5];
+   
+   function isEven(int x){
+       return x%2 == 0;
+   }
+   
+   const c = arr.filter(isEven);
+   
+   console.log(c);	// [2,4]
+   ```
+
+   
+
+3. **reduce**
+
+   ```javascript
+   // Reduce will take all elements of the array, do something with them, and return a single value.
+   
+   const arr = [1,2,3,4,5];
+   
+   function reduceExample(accumulator, current){
+       accumulator += current;
+       return accumulator;
+   }
+   
+   const c = arr.reduce(reduceExample, 0);
+   
+   console.log(c);	// 15
+   ```
+
+   ```javascript
+   // Find fullname of all users
+   
+   const users = [
+     {firstName : "Akshay", lastName: "Saini", age : 26},
+     {firstName : "Doland", lastName: "Trump", age : 75},
+     {firstName : "Elon", lastName: "Musk", age : 50},
+     {firstName : "Deepika", lastName: "Padukone", age : 32},
+   ];
+   
+   function getFullName(a){
+     return a.firstName + " " + a.lastName;
+   }
+   
+   const newarr = users.map(getFullName);
+   
+   console.log(newarr);
+   ```
+
+   ```javascript
+   // Find all different ages and count of users against each user
+   
+   const users = [
+     {firstName : "Akshay", lastName: "Saini", age : 26},
+     {firstName : "Doland", lastName: "Trump", age : 75},
+     {firstName : "Elon", lastName: "Musk", age : 75},
+     {firstName : "Deepika", lastName: "Padukone", age : 32},
+   ];
+   
+   function ageGroup(result, current){
+     if(result[current.age]){
+       result[current.age] += 1;
+     }
+     else{
+       result[current.age] = 1;
+     }
+     return result;
+   }
+   
+   var result = users.reduce(ageGroup,{});
+   
+   console.log(result);
+   ```
+
+   ```javascript
+   // Get first name of all users having age less than 30
+   
+   const users = [
+       {firstName : "Akshay", lastName: "Saini", age : 26},
+       {firstName : "Doland", lastName: "Trump", age : 75},
+       {firstName : "Elon", lastName: "Musk", age : 75},
+       {firstName : "Deepika", lastName: "Padukone", age : 26}
+   ];
+   
+   const usersWithAgeLessThan30 = (user) => user.age < 30;
+   
+   const getFirstName = (user) => user.firstName;
+   
+   const result = users.filter(usersWithAgeLessThan30).map(getFirstName); // Method Chaining
+   
+   console.log(result);
+   ```
+
+
+
+
+
+## 27. Polyfills
+
+Map, Reduce & Filter are part of ES-6 which is not available for all browsers. **Polyfills** are the actual code written in these methods.
+
+1. **map**
+
+   ```javascript
+   // Map is a function that take another function as input
+   
+   let arr = [1, 2, 3, 4, 5];
+   
+   const square = x => x * x;
+   
+   const myPolyfill = (myArray, myFunction) => {
+   
+     let result = [];
+   
+     // Execute the callback function for each array element
+     for (let i of myArray) {
+       result.push(square(i));
+     }
+   
+     return result;
+   };
+   
+   let result = myPolyfill(arr, square);
+   
+   console.log(result);
+   
+   ```
+
+   
+
+2. **filter**
+
+   ```javascript
+   // Filter will take only those elements, for which the callback function will return true
+   
+   let arr = [1, 2, 3, 4, 5];
+   
+   const isEven = (x) => (x % 2 == 0);
+   
+   const filterPolyfill = (myArray, myCallbackFunction) => {
+   	
+     let result = [];
+     
+     for(let i of myArray){
+     	if(myCallbackFunction(i)){
+       	result.push(i);
+       }
+     }
+     
+     return result;
+     
+   }
+   
+   const result = filterPolyfill(arr, isEven);
+   
+   console.log(result);
+   ```
+
+   
+
+3. **reduce**
+
+   ```javascript
+   // Reduce will execute a callback function and merge the results
+   
+   let arr = [1, 2, 3, 4, 5];
+   
+   const sum = (sum, current) => {
+       sum += current;
+       return sum;
+   }
+   
+   const reducePolyfill = (myArray, myFun, defaultValue) => {
+   
+       let result = defaultValue;
+   
+       for(let i of myArray){
+           result = myFun(result, i);
+       }
+   
+       return result;
+   
+   }
+   
+   const result = reducePolyfill(arr, sum, 0);
+   
+   console.log(result);
+   ```
+
+   
