@@ -836,4 +836,275 @@ Map, Reduce & Filter are part of ES-6 which is not available for all browsers. *
    console.log(result);
    ```
 
+
+
+
+
+
+## 28. call, apply & bind
+
+1. Using call we can borrow functions from other objects, this is also called **Function Borrowing**.
+
+2. **call**
+
+   ```javascript
+   let name = {
+       firstName: "Prajwal",
+       lastName: "Sharma",
+       printFullName: function(){
+           console.log(this.firstName + " " + this.lastName);
+       }
+   }
    
+   let anotherName = {
+       firstName: "Tony",
+       lastName: "Stark"
+   }
+   
+   name.printFullName.call(anotherName);	// Tony Stark
+   
+   // OR we can move the function out from object
+   
+   let printFullName = function(hometown){
+       console.log(this.firstName + " " + this.lastName + " " + hometown);
+   }
+   
+   printFullName.call(name, "Chandigarh");	// Prajwal Sharma
+   printFullName.call(anotherName, "Pune");	// Tony Stark
+   ```
+
+   
+
+3. **apply**
+
+   Instead of passing comma separated values, we pass an array of parameters.
+
+   ```javascript
+   let printFullName = function(hometown, state){
+       console.log(this.firstName + " " + this.lastName + " " + hometown);
+   }
+   
+   printFullName.call(name, ["Chandigarh","UT"]);	// Prajwal Sharma
+   
+   printFullName.call(anotherName, ["Pune","Maharashtra"]);	// Tony Stark
+   ```
+
+   
+
+4. **bind**
+
+   This method binds a particular method with an object & return a copy of the function. The returned copy of function can be invoked/called later.
+
+   ```javascript
+   let name = {
+       firstName: "Prajwal",
+       lastName: "Sharma"
+   }
+   
+   let printFullName = function(hometown, state){
+       console.log(this.firstName + " " + this.lastName + " " + hometown + " " + state);
+   }
+   
+   let printMyName = printFullName.bind(name, "Chandigarh", "Pune"); // This will return the function
+   
+   printMyName();	// This will print
+   ```
+
+   
+
+5. **Polyfill** of bind method
+
+   ```javascript
+   // To Do
+   ```
+
+
+
+## 29. Debouncing
+
+1. When typing in a search box, we need to call the api after user is done typing to stop unnecessary events. The function is called **Debounce Method** and this thing is called **Debouncing**.
+2. Call a function only when there's a delay of 't' ms within two events.
+
+```javascript
+
+```
+
+
+
+## 30. Throttling
+
+1. Limiting the rate of execution of a function call is called **Throttling** for optimizing the performance.
+2. Call a function if the
+
+```javascript
+let searchBox = document.getElementById("searchbox");
+
+let fetchDataFromApi = (searchText) => console.log(searchText);
+
+let timeout;
+
+let searBoxKeyUpEvent = (event) => {
+
+  let searchText = event.target.value;
+
+  clearTimeout(timeout);
+
+  timeout = setTimeout(() => fetchDataFromApi(searchText), 1000);
+
+};
+
+searchBox.addEventListener('keyup', searBoxKeyUpEvent);
+
+```
+
+
+
+## 31. Currying
+
+Through **currying** we can make multiple methods using any of the existing method.
+
+Currying can be implemented by two ways: **bind** & **closures**
+
+```javascript
+let multiply = (x,y) => {
+    console.log(x*y);
+}
+
+// Using bind
+let multiplyCopy2 = multiply.bind(this,2);
+
+multiplyCopy2(3);	// 6
+multiplyCopy2(4);	// 8
+
+// Using Closures
+let multiply = function(x) {
+    return function(y){
+        console.log(x*y);
+    }
+}
+
+multiply(2)(3);	// 6
+```
+
+
+
+## 32. script vs async vs defer
+
+1. **script** - When we load the webpage, browser parse the HTML code, when it hits the script tag, it loads the script & run the script. Once script is executed it again continues parsing the HTML.
+
+2. **async script** - Browser parses the HTML, downloads the script at the same time async, once script is loaded it executes the whole script then again continue parsing the HTML.
+
+3. **defer script** - Browser parses the HTML, downloads the script at the same time async, it finishes parsing the HTML & then start parsing the script. **Recommended**
+
+   ```html
+   <script src="" />
+   <script async src="" />
+   <script defer src="" />
+   ```
+
+
+
+## 33. Event Bubbling vs Capturing
+
+1. **Event Bubbling** - If we click a child element in html, the child event will be called first, then it's parent's event is called and so on. Up the DOM tree.
+
+2. **Event Capturing**/**Trickling** - If we click on grandparent in html, grandparent will be called first, then the parent, then the child. Down the DOM tree.
+
+3. By default **Event Bubbling** if don't pass anything in third parameter.
+
+4. As per W3C, first Capturing happens, then Bubbling.
+
+   ```javascript
+   myBtn.addEventListener('click', () => console.log("Parent called"), true);	// Event Capturing
+   
+   myBtn.addEventListener('click', () => console.log("Child called"), false);	// Event Bubbling
+   ```
+
+   ```javascript
+   document.getElementById('grandparent')
+       .addEventListener('click', () => console.log("Grandparent"), true);
+   
+   document.getElementById('parent')
+       .addEventListener('click', () => console.log("parent"), false);
+   
+   document.getElementById('child')
+       .addEventListener('click', () => console.log("child"), true);
+   
+   // Grandparent (Capturing)
+   // child (Capturing)
+   // parent (Bubbling)
+   ```
+
+
+
+## 34. Event Delegation
+
+1. It is based on Event Bubbling.
+
+2. If we have an event listener on a list item. Now if we have millions of list items then we have millions of event listeners in our page which can become performance bottleneck.
+
+3. In this case, we bubble the event listener to list item's parent.
+
+   ```html
+   <ul id="category">
+       <li>Laptop</li>
+       <li>Camera</li>
+       <li>Shoes</li>
+   </ul>
+   
+   document.getElementById("category")
+   	.addEventListener('click', (e) => console.log(e.target.id));
+   ```
+
+
+
+## 35. Prototype and Prototypal Inheritance
+
+1. **Prototype** provides all the functions to our variables like map, filter, reduce etc.
+2. JS engine automatically attach some properties & functions to our variables through Prototype.
+3. **Prototype  Chain** is the proto of proto. Everything in JS drills down to an object.
+
+```javascript
+const arr = [1,2,3,4,5];
+
+arr.toSting();
+
+arr.__proto__.toString();
+
+arr.__proto__; // Array Prototype
+arr.__proto__.__proto__; // Object Prototype
+arr.__proto__.__proto__.__proto__;	// null
+
+```
+
+
+
+## 36. Session Storage & Local Storage
+
+1. **Session Storage**
+   1. Stores data in current session/memory.
+   2. Unlike cookies, session storage data is not sent along with the network calls.
+   3. It has larger capacity (5 MB)
+   4. It uses the same origin.
+2. **Local Storage**
+   1. Stores data in browser.
+   2. It does not expire.
+   3. It has much larger capacity (5 MB on mobile phone)
+   4. It uses the same origin.
+
+```javascript
+localStorage.setItem('key1', 'value1');
+localStorage.getItem('key1');	// value1
+localStorage.setItem('key1', 'value2');	// It replaces the existing data
+localStorage.removeItem('key1');	// Removes data from local storage
+localStorage.clear();	// Clear all the data from local storage
+
+// Store objects in local storage
+var obj = {
+    firstname: "Prajwal"
+};
+
+localStorage.setItem("key", JSON.stringify(obj));	// Serialization
+JSON.parse(localStorage.getItem("key"));	// Deserialization
+```
+
