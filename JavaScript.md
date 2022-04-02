@@ -1108,3 +1108,857 @@ localStorage.setItem("key", JSON.stringify(obj));	// Serialization
 JSON.parse(localStorage.getItem("key"));	// Deserialization
 ```
 
+
+
+
+
+# Codevolution - JS Crash Course
+
+
+
+## 1. What is JS?
+
+1. It is a high level just-in-time compiled language that conforms to ECMAScript specification.
+
+2. It is the core technology of the world wide web.
+
+3. It can be used to server side apps as well using NodeJS.
+
+4. It can be used to create desktop & mobile apps as well.
+
+   
+
+## 2. How can we work with JS?
+
+1. We can write JS code in HTML and run in browser.
+
+2. We can write JS in separate file and run in browser.
+
+3. We can install NodeJS and run JS outside from browser.
+
+   ```html
+   <html>
+       <head>
+       </head>
+       <body>
+           <p>
+               Hello World
+           </p>
+           <script>
+           	console.log("Hello World");
+           </script>
+       </body>
+   </html>
+   ```
+
+   ```html
+   <html>
+       <head>
+       </head>
+       <body>
+           <p>
+               Hello World
+           </p>
+           <script src="index.js"/>
+       </body>
+   </html>
+   ```
+
+   ```javascript
+   // index.js
+   console.log("Hello World");
+   
+   // Open command promp & write below command, it will run JS in Node runtime
+   node index.js
+   //or
+   node index
+   ```
+
+   
+
+
+
+## 3. JS Language Syntax
+
+```javascript
+// 1. Print something in JS
+console.log("Hello World");
+
+// 2. Single line comment
+/*
+	3. Multiline comments
+*/
+
+// 4. Variables
+let age = 34;
+const age = 45;
+var age = 65;
+
+// 5. let vs const
+// Const value should be assigned & it's value cannot be changed.
+```
+
+
+
+## 4. Data Types
+
+1. String
+
+2. Number
+
+3. Boolean
+
+4. Undefined
+
+5. Null
+
+6. Objects (Non - Premitive)
+
+   ```javascript
+   const name = 'Prajwal';
+   const language = "JS";
+   const channel = `Hello`;
+   
+   const total = 0;
+   const PI = 3.14;
+   
+   const isTrue = true;
+   
+   const abc;	// undefined
+   const res = undefined;	// undefined
+   
+   const data = null;
+   
+   const obj = {
+       firstName: "Prajwal",
+       lastName: "Sharma",
+       getName: function(){
+           return this.firstName + " " + this.lastName;
+       }
+   }
+   obj.firstName; // Prajwal
+   obj.getName; // Prajwal Sharma
+   
+   const array = [1,2,3,4,5,"sdsd",1.0,true,false];
+   
+   let x = 5;
+   let y = "5";
+   
+   x == y;	// true - Check value only
+   x === y; // false - Check value as well as type
+   ```
+
+
+
+
+
+## 5. Type Conversion
+
+1. **Implicit** Conversion - Automatic conversion
+
+   ```javascript
+   const a = 'hello' + 4;	// hello4 - String
+   const a = 4 + 4 + 'hello';	// 8hello
+   const a = 2 + "3";	// 23 - String
+   
+   const b = "2" * "4";	// 8
+   const b = "4" * "hello";	// NaN
+   
+   const c = "5" - true;	// 4 - true is treated as 1
+   const c = "5" - false;	// 0 - true is treated as 0
+   
+   const d = 5 + undefined;	// NaN 
+   ```
+
+   
+
+2. **Explicit** Conversation - Manual conversion
+
+   ```javascript
+   parseInt("5");	// 5
+   parseFloat("3.14")	// 3.14
+   
+   String(500);	// "500"
+   String(true);	// "true"
+   String(undefine);	// "undefined"
+   String(null);	// null
+   
+   (500).toString();	// "500" - It won't work with null & undefined
+   
+   Boolean(10);	// true
+   Boolean(0);	// false - null/undefined/0/''/NaN
+   ```
+
+
+
+## 6. Equality
+
+```javascript
+var a = "test";
+var b = "test";
+a == b; // true
+a === b; // true
+
+var a = 10;
+var b = "10";
+a == b;	// true - value is converted and then compared
+a === b;	// false
+
+var a = 0;
+var b = "";
+a == b;	// true
+a === b;	// false
+
+var a = false;
+var b = "";
+a == b;	// true
+a === b;	// false
+
+var a = null;
+var b = undefined;
+a == b;	// true
+a === b;	// false
+```
+
+
+
+## 7. Loop
+
+1. For Loop
+
+2. While Loop
+
+3. Do While Loop
+
+4. For Of Loop
+
+   ```javascript
+   const a = [1,2,3,4,5];
+   
+   for(let i of a){
+       console.log(i);
+   }
+   ```
+
+
+
+## 8. Functions
+
+1. A block of code grouped together and perform a particular task.
+
+2. Functions are reusable.
+
+   ```javascript
+   function Greet(){
+       console.log("Hello Bro!");
+   }
+   Greet();	// Hello Bro!
+   
+   const greet = function Greet(){
+       console.log("Hello Bro!");
+   }
+   greet();	// Hello Bro!
+   
+   const greet = function(){
+       console.log("Hello Bro!");
+   }
+   greet();	// Hello Bro!
+   
+   const greet = () => console.log("Hello Bro!");
+   greet();	// Hello Bro!
+   ```
+
+
+
+## 9. Scope
+
+1. Scope determines the accessibility or visibility of variables to other variables/functions in JS program.
+
+2. There are 3 scopes:
+
+   1. **Block**
+
+      Variables declared inside a pair of curly braces cannot be accessed from outside.
+
+      ```javascript
+      if(true){
+          const a = "Prajwal";
+          let b = "Sharma";
+          var c = "Hello";
+      }
+      
+      console.log(a);	// reference error - Block scope
+      console.log(b); // reference error - Block scope
+      console.log(c); // Hello - Global scope
+      ```
+
+      
+
+   2. **Global**
+
+      Variables defined in parent scope and can be accessed in a block or a function. 
+
+      ```javascript
+      var a = "Hello";
+      
+      {
+          console.log(a);	// Hello
+      }
+      ```
+
+      
+
+   3. **Function**
+
+      Variables declared inside a function cannot be accessed from outside the function.
+
+      ```javascript
+      function name(){
+          const a = "Hello";
+      }
+      
+      console.log(a);	// reference error
+      ```
+
+
+
+## 10. Nested Function Scope
+
+```javascript
+let a = 10;
+
+function outer(){
+
+	let b = 20;
+  
+  function inner(){
+  
+  	let c = 30;
+    
+    console.log(a,b,c);
+    
+  }
+  
+  inner();
+}
+
+outer();	// 10, 20, 30
+```
+
+
+
+## 11. Closure
+
+1. A closure is the combination of a function and the reference to it's surrounding state.
+
+2. Closures are created every time a function is created, at function creation time.
+
+3. In JS, functions always remembers it neighbours.
+
+   ```javascript
+   function outer(){
+       
+       let a = 20;
+       
+       return function inner(){
+           console.log(a);
+       }
+       
+   }
+   
+   const inner = outer();	// Due to closure, the function still have reference to variable a
+   
+   inner();	// 20
+   ```
+
+   ```javascript
+   function outer(){
+   
+       let a = 20;
+       
+       return function inner(){
+           
+           a++;
+           
+           console.log(a);
+       }
+   }
+   
+   const inner = outer();	// We have reference to variable a only, it's value can change.
+   
+   inner();	// 21
+   inner();	// 22
+   inner();	// 23
+   inner();	// 24
+   inner();	// 25
+   ```
+
+
+
+## 12. Function Currying
+
+1. A process in which we transform a function with multiple arguments into a sequence of nested function that take only one function at a time.
+
+2. A function like fun(1,2,3) will be transformed into f(1)(2)(3);
+
+   ```javascript
+   function sumCurrying(a){
+   	return function(b){
+           return function(c){
+               return a+b+c;
+           }
+     	}
+   }
+   
+   s = sumCurrying(1)(2)(3);
+   
+   console.log(s);
+   ```
+
+   ```javascript
+   function sum (a,b,c){
+   	return a+b+c;
+   }
+   
+   function curry(fn){
+       return function(a){
+           return function(b){
+               return function(c){
+                   return fn(a,b,c);
+               }
+           }
+       }
+   }
+   
+   let s = curry(sum);
+   
+   console.log(s(1)(2)(3));
+   ```
+
+
+
+## 13. this keyword
+
+1. The 'this' in a function, refers to the object it belongs to.
+
+2. It makes functions reusable by letting you decide the object value.
+
+3. This value is determined entirely be how a function is called.
+
+4. The value of 'this' is determined by:
+
+   1. **Implicit** Binding
+
+      ```javascript
+      const person = {
+          name: "Prajwal",
+          getName: function(){
+              console.log(this.name);	// this refers to 'person'
+          }
+      }
+      
+      person.getName();
+      ```
+
+      
+
+   2. **Explicit** Binding
+
+      ```javascript
+      const person = {
+          name: "Prajwal",
+      }
+      
+      function getName(){
+          console.log(this.name);	// We're binding this method externally
+      }
+      
+      getName.call(person);	// using JS 'call' method
+      ```
+
+      
+
+   3. **New** Binding
+
+      ```javascript
+      function Person(name){
+          this.name = name;
+      }
+      
+      const p1 = new Person("Batman");	// Constructor Function
+      const p2 = new Person("Superman");	// Constructor Function
+      
+      // new keyword internally creates a new empty object
+      
+      p1.name;	// Batman
+      p2.name;	// Superman
+      ```
+
+      
+
+   4. **Default** Binding
+
+      ```javascript
+      function getName(){
+          console.log(this.name);	// We're binding this method externally
+      }
+      
+      getName();	// undefined
+      ```
+
+      
+
+   5. **Order of precedence**
+
+      New > Explicit > Implicit > Default
+
+
+
+## 14. Prototype
+
+```javascript
+function Person(fname,lname){
+    this.firstName = fname;
+    this.lastName = lname;
+}
+
+const p1 = Person('Bruce','Wayne');
+const p2 = Person('Clark','Kent');
+
+p1.getFullName = function(){
+    return this.firstName + this.lastName;
+}
+
+p1.getFullName();	// Bruce Wayne
+p2.getFullName();	// Error - We cannot use the method for all objects
+
+// We will use 'Prototype' to made this function available to all objects of Person
+Person.prototype.getFullName = function(){
+   	return this.firstName + ' ' + this.lastName;
+}
+
+p1.getFullName();	// Bruce Wayne
+p2.getFullName();	// Clark Kent 
+```
+
+
+
+## 15. Class
+
+Class is a syntactical sugar on existing Prototype & Protype Inheritance.
+
+```javascript
+class Person{
+    
+    constructor(firstName,lastName){
+        this.fname = firstName;
+        this.lname = lastName;
+    }
+    
+    getName(){
+        console.log(this.firstName + ' ' + this.lastName);
+    }
+    
+}
+
+const p1 = new Person('Bruce','Wayne');
+
+p1.getName();	// Bruce Wayne
+
+// Inheritance
+class SuperHero extends Person{
+    
+    // Class Constructor
+    constructor(fname,lname){
+        super(fname,lname);	// Calling base class constructor
+        this.isSuperHero = true;	// Class variable
+    }
+    
+    // Class Function
+    fightCrime(){
+        console.log('Fighting Crime');
+    }
+}
+
+const batman = new SuperHero('Bruce','Wayne');
+
+batman.fightCrime();	// Fighting Crime
+batman.getName();	// Bruce Wayne
+```
+
+
+
+## 16. Iterables and Iterators - Why?
+
+1. In 2015, Iterables & Iterators are introduced.
+
+```javascript
+const str = "Prajwal";
+const arr = [1,2,3,4,5];
+
+for(let i=0; i<str.length; i++){
+    console.log(str.charAt(i));
+}
+
+for(let i=0; i<arr.length; i++){
+    console.log(arr[i]);
+}
+
+// This is difficult for string, we need a generic way to access a collection. For-of loop will help us achieve this.
+
+for(const char of str){
+    console.log(char);
+}
+
+for(const item of arr){
+    console.log(item);
+}
+```
+
+
+
+## 17. Asynchronous JS
+
+JS is a synchronous, blocking, single-threaded language.
+
+1. **Synchronous** - Code will execute one line at a time.
+2. **Blocking** - The next line of code will not be executed until the previous line executes first.
+3. **Single Threaded** - JS has only 1 main thread that executes the code.
+
+
+
+## 18. How to achieve asynchronous behaviour in JS?
+
+1. Browsers provide the asynchronous functionality to JS. 
+2. Like setTimeout, setInterval, Fetch API, DOM API etc.
+3. These features are not part of JS
+4. **setTimeout**
+
+```javascript
+function abc(){
+    console.log("Hello");
+}
+
+const timeout = setTimeout(abc, 1000);	// Call abc after 1s only once
+
+clearTimeout(timeout); // Clear the timeout**setInterval**
+```
+
+4. **setInterval**
+
+```javascript
+function abc(){
+    console.log("Hello");
+}
+
+const interval = setInterval(abc, 1000);	// Call abc after every 1s infinitely
+
+clearInterval(timeout); // Clear the timeout
+```
+
+```javascript
+// Recursive setTimeout to mimic setInterval
+
+function fun(){
+    console.log("Hello");
+    setTimeout(fun,100);
+}
+
+setTimeout(fun, 100);
+
+// Duration is guarantedd between executions.
+```
+
+
+
+## 19. Callbacks
+
+1. In JS, functions are **First Class Objects**, means, a function can be passed to another function and a function can also return another function.
+
+2. Any function passed to another function as argument is called "**Callback Function**".
+
+3. Any function that takes another function as input parameter is called "**Higher Order Function**"
+
+4. Async callback is a callback used to execute after an async operation is completed. Like Data fetching.
+
+   ```javascript
+   function a(){
+       console.log('Hello');
+   }
+   
+   function HOC(callback){	// HOC
+       callback();
+   }
+   
+   HOC(a);	// Callback
+   ```
+
+   ```javascript
+   // Example 1 - setTimeout
+   const fun = () => console.log('Hello');
+   setTimeout(fun, 1000);
+   
+   // Example 2 - event listeners
+   document.getElementById('demo').addEventListener('click', fun);
+   
+   // Example 3 - Jquery AJAX
+   $.get('URL', fun);
+   ```
+
+
+
+## 20. Callback Hell
+
+Callback Hell is resolved through **Promises**.
+
+```javascript
+fetchData1('URL', function(){
+    fetchData2('URL2',function(){
+        fetchData3('URL3',function(){
+            ....
+            	....
+                	....
+                    	// Finally use the data
+        })
+    })
+})
+```
+
+
+
+## 21. Promise
+
+1. You ask your Dad to fetch ice cream on his way back.
+2. Your dad promise you to bring ice cream. (**Pending** State)
+3. You continue doing other work.
+4. Now there can be 2 situations:
+   1. Your father brings the ice cream. (**Resolved** State)
+      1. You eat the ice cream (Success Callback)
+   2. Your father did not bring the ice cream for any xyzzy reason. (**Failed** State)
+      1. You eat sugar instead. (Failure Callback)
+5. In JS, a promise is a proxy/placeholder for a value which is not known at the time of Promise creation.
+6. It allows us to associate handlers for promise fulfilled/failed.
+7. **Promise is simply an object in JS.**
+8. It will always be in one of the 3 states:
+   1. **pending**
+   2. **fulfilled**
+   3. **rejected**
+9. Why do we need Promises?
+   1. We can write async code in easy way as compared to callback function.
+   2. We can avoid callback hell.
+
+```javascript
+const promise = new Promise();
+
+const promise = new Promise((resolve,reject) => {});
+
+const promise = new Promise((resolve,reject) => {
+    resolve(); // Change status from 'pending' to 'filfilled'
+});
+
+const promise = new Promise((resolve,reject) => {
+    reject(); // Change status from 'pending' to 'rejected'
+});
+```
+
+```javascript
+// Create Promise
+const promise = new Promise((resolve, reject) => {
+  fetch('https://jsonplaceholder.typicode.com/postss')
+    .then(resp => {
+      console.log(resp.status)
+      if (resp.status === 200) {
+        resolve(resp);
+      } else {
+        reject(resp);
+      }
+    })
+})
+
+// Promise Fulfilled
+promise.then(async (resp) => {
+  let data = await resp.json();
+  console.log(data);
+});
+
+// Promise Rejected
+promise.catch(async (resp) => {
+  let data = await resp.json();
+  console.log(data);
+});
+
+```
+
+```javascript
+const a = fetch('https://jsonplaceholder.typicode.com/postss');
+
+a.then(() => console.log("Success"));
+
+a.catch(() => console.log("Faile"));
+```
+
+
+
+```javascript
+// Callback Hell Problem
+fetchData1('URL', function(){
+    fetchData2('URL2',function(){
+        fetchData3('URL3',function(){
+            ....
+            	....
+                	....
+                    	// Finally use the data
+        })
+    })
+})
+
+
+// Callback Hell Problem
+
+const promise = fetchCurrentUser();
+
+promise
+	.then(result => fetchFollowersByUserId())
+	.then(result => fetchFollowersByUserId())
+	.then(result => fetchFollowersByUserId())
+	.then(result => fetchFollowersByUserId())
+	.then(result => fetchFollowersByUserId())
+	....
+```
+
+```javascript
+// Promise.all
+// Get all completed tasks
+
+const a = fetch('https://jsonplaceholder.typicode.com/posts');
+const b = fetch('https://jsonplaceholder.typicode.com/users');
+
+const fun = async () => {
+  const resp = await Promise.all([a, b]);
+  const d = resp.map(async (r) => {
+  	const data = await r.json();
+    console.log(data);
+  });
+};
+
+fun();
+
+```
+
+```javascript
+// Promise.any
+// Get only the first completed task
+
+const a = fetch('https://jsonplaceholder.typicode.com/posts');
+const b = fetch('https://jsonplaceholder.typicode.com/users');
+
+const fun = async () => {
+  const resp = await Promise.any([a, b]);
+  const d = await resp.json();
+  console.log(d);
+};
+
+fun();
+
+```
+
